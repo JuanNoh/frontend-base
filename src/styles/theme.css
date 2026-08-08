@@ -1,0 +1,46 @@
+@theme {
+	--font-sans: 'Inter', system-ui, sans-serif;
+
+	/* marca */
+	--color-primary: #591eb7;
+	--color-primary-hover: #8878f6;
+	--color-primary-soft: #ede9fe;
+
+	/* superficie y texto */
+	--color-surface: #ffffff;
+	--color-surface-muted: #f4f4f5;
+	--color-ink: #212121;
+	--color-ink-muted: #787c8b;
+	--color-line: #bebebe;
+	--color-line-soft: #eeeeee;
+
+	/* estados */
+	--color-danger: #be2a29;
+	--color-danger-soft: #fee2e2;
+	--color-success: #166434;
+	--color-success-soft: #dcfce7;
+	--color-warning: #854d0f;
+	--color-warning-soft: #fef9c3;
+	--color-info: #1c4ed8;
+	--color-info-soft: #dbeafe;
+
+	--shadow-card: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
+	--radius-field: 0.75rem;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+	margin: 0;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: var(--font-sans);
+	color: var(--color-ink);
+	background-color: var(--color-surface-muted);
+}
