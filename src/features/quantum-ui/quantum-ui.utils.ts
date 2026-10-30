@@ -1,15 +1,17 @@
+import { flattenNav } from '@/components/layout/app-shell/app-shell.utils';
 import {
 	PRESETS,
 	type Appearance,
 	type Preset,
 	type PresetName,
 } from '@/stores/appearance.store';
+import { QUANTUM_NAV } from './quantum-nav';
 
-export function scrollToSection(id: string) {
-	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	document
-		.getElementById(id)
-		?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+export function crumbsFor(pathname: string, hash: string) {
+	const path = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
+	const leaves = flattenNav(QUANTUM_NAV).filter(({ leaf }) => leaf.to === path);
+	const match = leaves.find(({ leaf }) => leaf.hash === hash) ?? leaves[0];
+	return match ? ['Quantum UI', ...match.trail, match.leaf.label] : ['Quantum UI'];
 }
 
 export function matchPreset(appearance: Appearance): PresetName | undefined {

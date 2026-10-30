@@ -18,6 +18,8 @@ export const topbarKbdStyles = cva(
 	'border-line ml-auto rounded-[5px] border px-1.5 py-0.5 font-mono text-[11px] leading-none'
 );
 
+export const topbarThemeStyles = cva('max-sm:hidden');
+
 export const topbarSearchIconStyles = cva('md:hidden');
 
 export const topbarProgressStyles = cva(

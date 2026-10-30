@@ -1,4 +1,19 @@
-import type { DataTableColumn, SortState } from './data-table.types';
+import type { DataTableColumn, DataTableFilter, SortState } from './data-table.types';
+
+export const ALL_FILTER = 'todos';
+
+export function applyFilters<T>(
+	rows: T[],
+	filters: DataTableFilter<T>[],
+	values: Record<string, string>
+) {
+	const active = filters.filter(
+		(filter) => values[filter.key] && values[filter.key] !== ALL_FILTER
+	);
+	return rows.filter((row) =>
+		active.every((filter) => filter.value(row) === values[filter.key])
+	);
+}
 
 export function filterRows<T>(rows: T[], query: string, searchText?: (row: T) => string) {
 	const needle = query.trim().toLowerCase();

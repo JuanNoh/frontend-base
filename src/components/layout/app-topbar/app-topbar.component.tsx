@@ -22,6 +22,7 @@ import {
 	topbarSearchIconStyles,
 	topbarSearchStyles,
 	topbarStyles,
+	topbarThemeStyles,
 } from './app-topbar.styles';
 import type { AppTopbarProps } from './app-topbar.types';
 import { TopbarNotifications } from './topbar-notifications/topbar-notifications.component';
@@ -87,6 +88,7 @@ export function AppTopbar({
 					value={mode}
 					onValueChange={setMode}
 					options={MODES}
+					className={topbarThemeStyles()}
 				/>
 				{notifications && (
 					<TopbarNotifications

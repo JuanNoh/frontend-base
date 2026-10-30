@@ -9,6 +9,14 @@
 			content="Sistema de diseño y plantilla en React 19, TypeScript y Tailwind CSS 4 con componentes propios para cualquier negocio."
 		/>
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Quantum UI" />
+		<meta
+			property="og:description"
+			content="Sistema de diseño y plantilla en React 19, TypeScript y Tailwind CSS 4 con componentes propios para cualquier negocio."
+		/>
+		<meta property="og:image" content="https://quantum-ui.pages.dev/og.jpg" />
+		<meta name="twitter:card" content="summary_large_image" />
 		<script>
 			(() => {
 				try {
@@ -16,11 +24,11 @@
 						JSON.parse(localStorage.getItem('appearance') ?? '{}').state ??
 						{};
 					const root = document.documentElement;
-					const mode = saved.mode ?? 'system';
+					const mode = saved.mode ?? 'light';
 					const dark = matchMedia('(prefers-color-scheme: dark)').matches;
 					if (mode === 'dark' || (mode === 'system' && dark))
 						root.classList.add('dark');
-					if (saved.palette) root.dataset.palette = saved.palette;
+					root.dataset.palette = saved.palette ?? 'olive';
 					if (saved.shape) root.dataset.shape = saved.shape;
 					if (saved.rail) root.dataset.rail = saved.rail;
 					if (saved.finish) root.dataset.finish = saved.finish;

@@ -10,6 +10,7 @@ import {
 	statCardIconStyles,
 	statCardLabelStyles,
 	statCardStyles,
+	statCardSparklineStyles,
 	statCardValueStyles,
 } from './stat-card.styles';
 import type { StatCardProps } from './stat-card.types';
@@ -50,7 +51,9 @@ export function StatCard({
 						{delta}
 					</span>
 				)}
-				{series && <Sparkline values={series} />}
+				{series && (
+					<Sparkline values={series} className={statCardSparklineStyles()} />
+				)}
 			</div>
 		</div>
 	);

@@ -13,7 +13,7 @@
 	--n-900: oklch(21.4% 0.009 43.1);
 	--n-950: oklch(14.7% 0.004 49.3);
 
-	--brand-base: oklch(58% 0.13 163);
+	--brand-base: oklch(58% 0.13 40);
 	--brand: var(--brand-base);
 	--brand-ink: var(--brand-ink-light, oklch(99% 0 0));
 	--brand-text: var(

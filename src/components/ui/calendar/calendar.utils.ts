@@ -30,11 +30,12 @@ export function dayLabel(day: Date) {
 export function dayState(day: Date, month: Date, selected?: Date, range?: DateRange) {
 	const { from, to } = range ?? {};
 	const isEdge = [from, to].some((edge) => !!edge && isSameDay(day, edge));
+	const isSelected = isEdge || (!!selected && isSameDay(day, selected));
 
 	return {
 		outside: !isSameMonth(day, month),
-		today: isToday(day),
-		selected: isEdge || (!!selected && isSameDay(day, selected)),
+		today: isToday(day) && !isSelected,
+		selected: isSelected,
 		inRange: !isEdge && !!from && !!to && isAfter(day, from) && isBefore(day, to),
 	};
 }

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { QuantumUiPage } from '@/features/quantum-ui/quantum-ui.page';
+import { QuantumShell } from '@/features/quantum-ui/components/quantum-shell/quantum-shell.component';
 
 export const Route = createFileRoute('/ui')({
-	component: QuantumUiPage,
+	component: QuantumShell,
 });

@@ -25,8 +25,10 @@ export const statCardValueStyles = cva(
 
 export const statCardFooterStyles = cva('flex items-end justify-between gap-3');
 
+export const statCardSparklineStyles = cva('min-w-0 shrink');
+
 export const statCardDeltaStyles = cva(
-	'inline-flex items-center gap-0.5 font-mono text-xs font-semibold [&_svg]:size-3.5',
+	'inline-flex shrink-0 items-center gap-0.5 font-mono text-xs font-semibold whitespace-nowrap [&_svg]:size-3.5',
 	{
 		variants: {
 			trend: {

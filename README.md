@@ -4,9 +4,26 @@
 
 Incluye **Quantum UI**, su sistema de diseño: [ver la demo](https://quantum-ui.pages.dev/ui).
 
+![Panel de Quantum UI en modo claro](public/og.jpg)
+
 Plantilla base para los proyectos frontend nuevos (2026 en adelante). Nace de las
 convenciones que ya funcionaban bien en proyectos anteriores, pero con el stack
 moderno: las ideas se quedan, las herramientas se actualizan.
+
+## Pantallas incluidas
+
+Ejemplos completos para copiar y adaptar. Cambia de empresa en el menú y el giro, los datos y el color cambian en toda la plantilla.
+
+| Ruta          | Pantalla | Qué muestra                                     |
+| ------------- | -------- | ----------------------------------------------- |
+| `/ui`         | Panel    | Indicadores, gráficas y pendientes del negocio  |
+| `/ui/ventas`  | Ventas   | Tabla con filtros, columnas y detalle lateral   |
+| `/ui/caja`    | Caja     | Punto de venta con ticket y cobro en efectivo   |
+| `/ui/agenda`  | Agenda   | Semana con citas, alta y filtro por persona     |
+| `/ui/tablero` | Tablero  | Kanban con arrastre, y menú para teclado o dedo |
+| `/ui/ajustes` | Ajustes  | Empresa, equipo, apariencia y avisos            |
+
+El catálogo de componentes vive en `/ui/fundamentos`, `/ui/formularios`, `/ui/superficies`, `/ui/datos` y `/ui/efectos`. Cada sección tiene un botón **Ver código** con el archivo real del ejemplo y sus tipos.
 
 ## Stack
 

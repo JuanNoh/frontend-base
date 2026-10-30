@@ -39,21 +39,31 @@ interface AppearanceState extends Appearance {
 	applyPreset: (name: PresetName) => void;
 }
 
-export const DEFAULT_ACCENT = 'oklch(58% 0.13 163)';
+export const DEFAULT_ACCENT = 'oklch(58% 0.13 40)';
 
 export const ACCENTS = [
-	{ label: 'Jade', value: DEFAULT_ACCENT },
+	{ label: 'Coral', value: DEFAULT_ACCENT },
+	{ label: 'Jade', value: 'oklch(58% 0.13 163)' },
 	{ label: 'Índigo', value: 'oklch(55% 0.16 270)' },
 	{ label: 'Turquesa', value: 'oklch(58% 0.11 205)' },
-	{ label: 'Coral', value: 'oklch(60% 0.15 38)' },
 	{ label: 'Orquídea', value: 'oklch(56% 0.16 330)' },
 	{ label: 'Tinta', value: 'ink' },
 ] as const;
 
 export const PRESETS = {
+	coral: {
+		palette: 'olive',
+		accent: DEFAULT_ACCENT,
+		shape: 'equilibrada',
+		rail: 'tenue',
+		finish: 'liquido',
+		surface: 'solida',
+		backdrop: 'liso',
+		glass: 72,
+	},
 	jade: {
 		palette: 'taupe',
-		accent: DEFAULT_ACCENT,
+		accent: 'oklch(58% 0.13 163)',
 		shape: 'equilibrada',
 		rail: 'tenue',
 		finish: 'liquido',
@@ -86,9 +96,9 @@ export const PRESETS = {
 export const useAppearanceStore = create<AppearanceState>()(
 	persist(
 		(set) => ({
-			mode: 'system',
+			mode: 'light',
 			railCollapsed: false,
-			...PRESETS.jade,
+			...PRESETS.coral,
 			setMode: (mode) => set({ mode }),
 			setPalette: (palette) => set({ palette }),
 			setAccent: (accent) => set({ accent }),

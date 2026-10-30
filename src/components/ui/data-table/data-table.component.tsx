@@ -2,11 +2,15 @@ import { ArrowUpDown, Search } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox/checkbox.component';
 import { Input } from '@/components/ui/input/input.component';
 import { Pagination } from '@/components/ui/pagination/pagination.component';
+import { DataTableColumns } from './data-table-columns.component';
+import { DataTableFilters } from './data-table-filters.component';
 import {
 	dataTableActionsStyles,
+	dataTableBodyStyles,
 	dataTableCellStyles,
 	dataTableEmptyStyles,
 	dataTableFooterStyles,
+	dataTableHeaderStyles,
 	dataTableHeadStyles,
 	dataTablePagerStyles,
 	dataTableRowStyles,
@@ -33,6 +37,8 @@ export function DataTable<T>({
 	emptyMessage = 'Nada coincide con la búsqueda.',
 	pageSize,
 	server,
+	filters,
+	onRowClick,
 }: DataTableProps<T>) {
 	const table = useDataTable({
 		rows,
@@ -41,6 +47,8 @@ export function DataTable<T>({
 		searchText,
 		pageSize,
 		server,
+		filters,
+		onRowClick,
 	});
 
 	return (
@@ -56,7 +64,24 @@ export function DataTable<T>({
 						className={dataTableSearchStyles()}
 					/>
 				)}
-				<div className={dataTableActionsStyles()}>{actions}</div>
+				{filters && (
+					<DataTableFilters
+						filters={filters}
+						values={table.filterValues}
+						onChange={table.setFilter}
+						onClear={table.clearFilters}
+					/>
+				)}
+				<div className={dataTableActionsStyles()}>
+					{table.hideableColumns.length > 0 && (
+						<DataTableColumns
+							columns={table.hideableColumns}
+							hidden={table.hiddenColumns}
+							onToggle={table.toggleColumn}
+						/>
+					)}
+					{actions}
+				</div>
 			</div>
 			{table.selectedIds.length > 0 && (
 				<div className={dataTableSelectionStyles()}>
@@ -73,7 +98,7 @@ export function DataTable<T>({
 			)}
 			<div className={dataTableScrollStyles()}>
 				<table aria-busy={table.isBusy} className={dataTableTableStyles()}>
-					<thead>
+					<thead className={dataTableHeaderStyles()}>
 						<tr>
 							<th className={dataTableHeadStyles({ select: true })}>
 								<Checkbox
@@ -82,7 +107,7 @@ export function DataTable<T>({
 									aria-label="Seleccionar todas"
 								/>
 							</th>
-							{columns.map((column) => (
+							{table.shownColumns.map((column) => (
 								<th
 									key={column.key}
 									className={dataTableHeadStyles({
@@ -105,11 +130,11 @@ export function DataTable<T>({
 							))}
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className={dataTableBodyStyles()}>
 						{table.visibleRows.length === 0 && (
 							<tr>
 								<td
-									colSpan={columns.length + 1}
+									colSpan={table.shownColumns.length + 1}
 									className={dataTableEmptyStyles()}
 								>
 									{emptyMessage}
@@ -125,19 +150,25 @@ export function DataTable<T>({
 									key={id}
 									data-selected={isSelected || undefined}
 									className={dataTableRowStyles()}
+									{...table.rowProps(row)}
 								>
-									<td className={dataTableCellStyles({ select: true })}>
+									<td
+										onClick={(event) => event.stopPropagation()}
+										className={dataTableCellStyles({ select: true })}
+									>
 										<Checkbox
 											checked={isSelected}
 											onCheckedChange={() => table.toggleRow(id)}
 											aria-label={`Seleccionar ${id}`}
 										/>
 									</td>
-									{columns.map((column) => (
+									{table.shownColumns.map((column) => (
 										<td
 											key={column.key}
+											data-label={column.header}
 											className={dataTableCellStyles({
 												align: column.align,
+												hideOnMobile: column.hideOnMobile,
 											})}
 										>
 											{column.render(row)}
