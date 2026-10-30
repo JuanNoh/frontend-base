@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/JuanNoh/frontend-base/actions/workflows/ci.yml/badge.svg)](https://github.com/JuanNoh/frontend-base/actions/workflows/ci.yml)
 
+Incluye **Quantum UI**, su sistema de diseño: [ver la demo](https://quantum-ui.pages.dev/ui).
+
 Plantilla base para los proyectos frontend nuevos (2026 en adelante). Nace de las
 convenciones que ya funcionaban bien en proyectos anteriores, pero con el stack
 moderno: las ideas se quedan, las herramientas se actualizan.
