@@ -239,3 +239,7 @@ pnpm format       # prettier a todo src/
 2. **Pre-push**: `pnpm prettier && pnpm lint && pnpm build` tienen que pasar en verde,
    si no, el push no sale.
 3. **CI (GitHub Actions)**: los mismos checks corren en la nube en cada push y PR.
+
+## Licencia
+
+[MIT](LICENSE)
