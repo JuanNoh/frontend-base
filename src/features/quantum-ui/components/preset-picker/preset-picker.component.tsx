@@ -20,6 +20,16 @@ const PRESET_CARDS: {
 	preview: { page: string; rail: string; accent: string };
 }[] = [
 	{
+		name: 'coral',
+		title: 'Coral',
+		description: 'Gris cálido como papel y coral apagado. La de inicio.',
+		preview: {
+			page: 'oklch(96.6% 0.005 106.5)',
+			rail: 'oklch(93% 0.006 106)',
+			accent: 'oklch(58% 0.13 40)',
+		},
+	},
+	{
 		name: 'jade',
 		title: 'Jade',
 		description: 'Gris cálido con un toque de jade. Formas equilibradas.',

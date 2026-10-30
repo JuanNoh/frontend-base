@@ -29,6 +29,7 @@ export function usePosDemo() {
 		lines,
 		items,
 		total: formatMoney(total),
+		totalValue: total,
 		tax: formatMoney(total - total / TAX_DIVISOR),
 		isEmpty: lines.length === 0,
 		payment,

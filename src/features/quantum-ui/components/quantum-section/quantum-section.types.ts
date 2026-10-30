@@ -5,5 +5,7 @@ export interface QuantumSectionProps {
 	eyebrow?: string;
 	title: string;
 	description?: string;
+	demo?: string;
+	api?: string[];
 	children: ReactNode;
 }

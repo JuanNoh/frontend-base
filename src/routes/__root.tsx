@@ -20,9 +20,7 @@ export const Route = createRootRoute({
 				</Suspense>
 				<Outlet />
 				<Toaster />
-				{import.meta.env.DEV && (
-					<TanStackRouterDevtools position="bottom-right" />
-				)}
+				{import.meta.env.DEV && <TanStackRouterDevtools position="bottom-left" />}
 			</Tooltip.Provider>
 		</MotionConfig>
 	),

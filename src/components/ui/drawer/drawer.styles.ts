@@ -1,7 +1,16 @@
 import { cva } from 'class-variance-authority';
 
 export const drawerContentStyles = cva(
-	'bg-surface text-ink shadow-pop rounded-l-dialog data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:animate-in data-[state=open]:slide-in-from-right fixed inset-y-0 right-0 z-50 flex w-[min(460px,100vw)] flex-col duration-300 outline-none'
+	'bg-surface text-ink shadow-pop rounded-l-dialog data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:animate-in data-[state=open]:slide-in-from-right fixed inset-y-0 right-0 z-50 flex flex-col duration-300 outline-none',
+	{
+		variants: {
+			size: {
+				default: 'w-[min(460px,100vw)]',
+				wide: 'w-[min(780px,100vw)]',
+			},
+		},
+		defaultVariants: { size: 'default' },
+	}
 );
 
 export const drawerHeaderStyles = cva(

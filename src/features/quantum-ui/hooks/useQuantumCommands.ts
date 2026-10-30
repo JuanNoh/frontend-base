@@ -1,26 +1,25 @@
 import { useMemo } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import { CloudDownload, Moon, Palette, Plus, Sun } from 'lucide-react';
 import { toast } from 'sonner';
 import { flattenNav } from '@/components/layout/app-shell/app-shell.utils';
 import type { Command } from '@/components/ui/command-palette/command-palette.types';
 import { useAppearanceStore } from '@/stores/appearance.store';
 import { QUANTUM_NAV } from '../quantum-nav';
-import { scrollToSection } from '../quantum-ui.utils';
 
 export function useQuantumCommands(): Command[] {
+	const navigate = useNavigate();
 	const setMode = useAppearanceStore((state) => state.setMode);
 	const applyPreset = useAppearanceStore((state) => state.applyPreset);
 
 	return useMemo(() => {
-		const sections = flattenNav(QUANTUM_NAV)
-			.filter(({ leaf }) => leaf.hash)
-			.map(({ key, leaf, trail, icon }) => ({
-				id: `ir-${key}`,
-				label: [...trail, leaf.label].join(' › '),
-				group: 'Ir a',
-				icon,
-				run: () => scrollToSection(leaf.hash ?? ''),
-			}));
+		const sections = flattenNav(QUANTUM_NAV).map(({ key, leaf, trail, icon }) => ({
+			id: `ir-${key}`,
+			label: [...trail, leaf.label].join(' › '),
+			group: 'Ir a',
+			icon,
+			run: () => navigate({ to: leaf.to, hash: leaf.hash }),
+		}));
 
 		return [
 			...sections,
@@ -60,6 +59,13 @@ export function useQuantumCommands(): Command[] {
 				run: () => setMode('light'),
 			},
 			{
+				id: 'mezcla-coral',
+				label: 'Mezcla Coral',
+				group: 'Apariencia',
+				icon: Palette,
+				run: () => applyPreset('coral'),
+			},
+			{
 				id: 'mezcla-jade',
 				label: 'Mezcla Jade',
 				group: 'Apariencia',
@@ -81,5 +87,5 @@ export function useQuantumCommands(): Command[] {
 				run: () => applyPreset('tinta'),
 			},
 		];
-	}, [setMode, applyPreset]);
+	}, [navigate, setMode, applyPreset]);
 }

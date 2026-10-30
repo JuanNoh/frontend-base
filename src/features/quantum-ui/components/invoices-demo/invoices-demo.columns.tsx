@@ -13,7 +13,7 @@ import {
 	invoiceTotalStyles,
 } from './invoices-demo.styles';
 
-const STATUS_TONE: Record<InvoiceStatus, BadgeProps['tone']> = {
+export const STATUS_TONE: Record<InvoiceStatus, BadgeProps['tone']> = {
 	Pagada: 'success',
 	'Por cobrar': 'warning',
 	Parcial: 'info',
@@ -41,12 +41,15 @@ export const INVOICE_COLUMNS: DataTableColumn<Invoice>[] = [
 	{
 		key: 'issuedAt',
 		header: 'Fecha',
+		hideable: true,
 		sortValue: (row) => row.issuedAt,
 		render: (row) => format(parseISO(row.issuedAt), 'd MMM yyyy', { locale: es }),
 	},
 	{
 		key: 'method',
 		header: 'Método',
+		hideable: true,
+		hideOnMobile: true,
 		render: (row) => (
 			<Badge tone={row.method === 'PPD' ? 'info' : 'neutral'}>{row.method}</Badge>
 		),

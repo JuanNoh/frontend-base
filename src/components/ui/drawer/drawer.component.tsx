@@ -21,13 +21,14 @@ export function Drawer({
 	description,
 	children,
 	footer,
+	size,
 }: DrawerProps) {
 	return (
 		<Dialog.Root open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
 			<Dialog.Portal>
 				<Dialog.Overlay className={modalOverlayStyles()} />
 				<Dialog.Content
-					className={drawerContentStyles()}
+					className={drawerContentStyles({ size })}
 					aria-describedby={undefined}
 				>
 					<header className={drawerHeaderStyles()}>

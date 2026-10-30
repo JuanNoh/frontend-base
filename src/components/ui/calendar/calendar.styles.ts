@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const calendarStyles = cva('w-[280px]');
+export const calendarStyles = cva('w-[280px] max-w-full');
 
 export const calendarHeaderStyles = cva('flex items-center justify-between pb-2');
 

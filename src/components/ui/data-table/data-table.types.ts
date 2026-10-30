@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { SelectOption } from '@/components/ui/select/select.types';
 
 export interface DataTableColumn<T> {
 	key: string;
@@ -6,7 +7,16 @@ export interface DataTableColumn<T> {
 	align?: 'left' | 'right';
 	sortValue?: (row: T) => string | number;
 	sortable?: boolean;
+	hideable?: boolean;
+	hideOnMobile?: boolean;
 	render: (row: T) => ReactNode;
+}
+
+export interface DataTableFilter<T> {
+	key: string;
+	label: string;
+	options: SelectOption[];
+	value: (row: T) => string;
 }
 
 export interface SortState {
@@ -36,9 +46,31 @@ export interface DataTableProps<T> {
 	emptyMessage?: string;
 	pageSize?: number;
 	server?: DataTableServer;
+	filters?: DataTableFilter<T>[];
+	onRowClick?: (row: T) => void;
+}
+
+export interface DataTableFiltersProps<T> {
+	filters: DataTableFilter<T>[];
+	values: Record<string, string>;
+	onChange: (key: string, value: string) => void;
+	onClear: () => void;
+}
+
+export interface DataTableColumnsProps<T> {
+	columns: DataTableColumn<T>[];
+	hidden: Set<string>;
+	onToggle: (key: string) => void;
 }
 
 export type DataTableOptions<T> = Pick<
 	DataTableProps<T>,
-	'rows' | 'columns' | 'getRowId' | 'searchText' | 'pageSize' | 'server'
+	| 'rows'
+	| 'columns'
+	| 'getRowId'
+	| 'searchText'
+	| 'pageSize'
+	| 'server'
+	| 'filters'
+	| 'onRowClick'
 >;

@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import type { Hue } from '@/lib/hues';
+import type { usePosDemo } from '../hooks/usePosDemo';
 
 export interface PosProduct {
 	id: string;
@@ -12,3 +13,5 @@ export interface PosProduct {
 }
 
 export type PosPayment = 'efectivo' | 'tarjeta' | 'transferencia';
+
+export type PosCart = ReturnType<typeof usePosDemo>;

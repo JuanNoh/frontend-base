@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type KeyboardEvent } from 'react';
 import type { DataTableOptions, SortState } from './data-table.types';
-import { filterRows, nextSort, sortRows } from './data-table.utils';
+import { applyFilters, filterRows, nextSort, sortRows } from './data-table.utils';
 
 export function useDataTable<T>({
 	rows,
@@ -9,17 +9,21 @@ export function useDataTable<T>({
 	searchText,
 	pageSize,
 	server,
+	filters = [],
+	onRowClick,
 }: DataTableOptions<T>) {
 	const [query, setQuery] = useState('');
 	const [sort, setSort] = useState<SortState | null>(null);
 	const [selected, setSelected] = useState<Set<string>>(() => new Set());
 	const [page, setPage] = useState(1);
+	const [filterValues, setFilterValues] = useState<Record<string, string>>({});
+	const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(() => new Set());
 
-	const visibleRows = useMemo(
-		() =>
-			server ? rows : sortRows(filterRows(rows, query, searchText), columns, sort),
-		[rows, query, searchText, columns, sort, server]
-	);
+	const visibleRows = useMemo(() => {
+		if (server) return rows;
+		const filtered = applyFilters(rows, filters, filterValues);
+		return sortRows(filterRows(filtered, query, searchText), columns, sort);
+	}, [rows, query, searchText, columns, sort, server, filters, filterValues]);
 	const localPageCount = pageSize ? Math.ceil(visibleRows.length / pageSize) || 1 : 1;
 	const localPage = Math.min(page, localPageCount);
 	const pageRows =
@@ -34,6 +38,14 @@ export function useDataTable<T>({
 			: selectedVisible === visibleIds.length
 				? true
 				: 'indeterminate';
+
+	const toggleColumn = (key: string) =>
+		setHiddenColumns((current) => {
+			const next = new Set(current);
+			if (next.has(key)) next.delete(key);
+			else next.add(key);
+			return next;
+		});
 
 	const toggleRow = (id: string) =>
 		setSelected((current) => {
@@ -53,6 +65,30 @@ export function useDataTable<T>({
 		});
 
 	return {
+		filterValues,
+		setFilter: (key: string, value: string) => {
+			setFilterValues((current) => ({ ...current, [key]: value }));
+			setPage(1);
+		},
+		clearFilters: () => {
+			setFilterValues({});
+			setPage(1);
+		},
+		hiddenColumns,
+		toggleColumn,
+		shownColumns: columns.filter((column) => !hiddenColumns.has(column.key)),
+		hideableColumns: columns.filter((column) => column.hideable),
+		rowProps: (row: T) =>
+			onRowClick
+				? {
+						tabIndex: 0,
+						'data-clickable': true,
+						onClick: () => onRowClick(row),
+						onKeyDown: (event: KeyboardEvent) => {
+							if (event.key === 'Enter') onRowClick(row);
+						},
+					}
+				: {},
 		query: server?.query ?? query,
 		setQuery: (next: string) => {
 			if (server) return server.onQueryChange(next);
