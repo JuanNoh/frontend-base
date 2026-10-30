@@ -1,0 +1,201 @@
+import {
+	BadgeCheck,
+	CalendarOff,
+	ClipboardList,
+	Clock,
+	FileText,
+	GraduationCap,
+	Fingerprint,
+	HandCoins,
+	UserPlus,
+	Users,
+} from 'lucide-react';
+import type { Vertical } from '../../types/vertical.types';
+import { MONTHS } from './months';
+
+export const RH: Vertical = {
+	id: 'rh',
+	label: 'Recursos humanos',
+	modules: [
+		{
+			label: 'Empleados',
+			description: 'Expedientes y puestos',
+			icon: Users,
+			hue: 'blue',
+		},
+		{
+			label: 'Asistencia',
+			description: 'Entradas y salidas',
+			icon: Fingerprint,
+			hue: 'green',
+			count: 4,
+		},
+		{
+			label: 'Nómina',
+			description: 'Quincenas y recibos',
+			icon: HandCoins,
+			hue: 'orange',
+		},
+		{
+			label: 'Vacaciones',
+			description: 'Solicitudes y saldos',
+			icon: CalendarOff,
+			hue: 'teal',
+			count: 3,
+		},
+		{
+			label: 'Reclutamiento',
+			description: 'Vacantes y candidatos',
+			icon: UserPlus,
+			hue: 'pink',
+			count: 7,
+		},
+		{
+			label: 'Capacitación',
+			description: 'Cursos y constancias',
+			icon: GraduationCap,
+			hue: 'violet',
+		},
+		{
+			label: 'Evaluaciones',
+			description: 'Desempeño por periodo',
+			icon: ClipboardList,
+			hue: 'amber',
+		},
+		{
+			label: 'Documentos',
+			description: 'Contratos y permisos',
+			icon: FileText,
+			hue: 'indigo',
+		},
+	],
+	stats: [
+		{
+			label: 'Empleados activos',
+			value: '148',
+			icon: Users,
+			delta: '3 nuevos',
+			trend: 'up',
+			series: [131, 134, 136, 138, 140, 141, 143, 146, 148],
+		},
+		{
+			label: 'Asistencia de hoy',
+			value: '96.4%',
+			icon: BadgeCheck,
+			hue: 'green',
+			delta: '5 ausentes',
+			trend: 'flat',
+			series: [94, 95, 97, 96, 95, 97, 96, 98, 96],
+		},
+		{
+			label: 'Retardos',
+			value: '12',
+			icon: Clock,
+			hue: 'orange',
+			delta: '4 menos',
+			trend: 'up',
+			series: [22, 19, 20, 17, 18, 15, 16, 14, 12],
+		},
+		{
+			label: 'Vacaciones pendientes',
+			value: '9',
+			icon: CalendarOff,
+			hue: 'violet',
+			delta: 'por autorizar',
+			series: [3, 5, 4, 6, 7, 6, 8, 7, 9],
+		},
+	],
+	funnel: {
+		title: 'Reclutamiento',
+		steps: [
+			{ label: 'Postulaciones', value: 186, hue: 'blue' },
+			{ label: 'Filtrados', value: 74, hue: 'violet' },
+			{ label: 'Entrevistas', value: 28, hue: 'pink' },
+			{ label: 'Ofertas', value: 9, hue: 'orange' },
+			{ label: 'Contratados', value: 6, hue: 'green' },
+		],
+	},
+	bars: {
+		title: 'Altas y bajas',
+		label: 'Altas y bajas de personal de mayo a octubre',
+		categories: MONTHS,
+		series: [
+			{ label: 'Altas', values: [6, 4, 8, 5, 7, 9], tone: 'primary' },
+			{ label: 'Bajas', values: [3, 5, 2, 4, 3, 2], tone: 'muted' },
+		],
+		max: 10,
+		ticks: [0, 5, 10],
+	},
+	line: {
+		title: 'Horas extra',
+		label: 'Horas extra por área de mayo a octubre',
+		categories: MONTHS,
+		series: [
+			{ label: 'Operación', values: [120, 142, 131, 168, 154, 176], hue: 'brand' },
+			{ label: 'Administración', values: [34, 41, 38, 52, 47, 44], hue: 'violet' },
+		],
+		max: 200,
+		ticks: [0, 50, 100, 150, 200],
+		unit: ' h',
+	},
+	donut: {
+		title: 'Personal por área',
+		label: 'Empleados por área',
+		segments: [
+			{ label: 'Operación', value: 78, hue: 'blue' },
+			{ label: 'Ventas', value: 34, hue: 'orange' },
+			{ label: 'Administración', value: 22, hue: 'violet' },
+			{ label: 'Sistemas', value: 14, hue: 'teal' },
+		],
+	},
+	progress: {
+		title: 'Nómina de la quincena',
+		total: 5,
+		done: 2,
+		items: [
+			{ label: 'Asistencias cerradas', status: 'done' },
+			{ label: 'Incidencias revisadas', status: 'done' },
+			{ label: 'Calculando percepciones y deducciones…', status: 'running' },
+			{ label: 'Autorizar la dispersión', status: 'pending' },
+			{ label: 'Enviar recibos', status: 'pending' },
+		],
+	},
+	cards: {
+		title: 'Empleados',
+		items: [
+			{
+				title: 'Ana Pech',
+				subtitle: 'Contadora · Administración',
+				hue: 'teal',
+				avatar: { name: 'Ana Pech', status: 'online' },
+				badge: { label: 'En turno', tone: 'success', dot: true },
+				meta: [
+					{ label: 'Entrada', value: '08:57' },
+					{ label: 'Antigüedad', value: '3 años' },
+				],
+			},
+			{
+				title: 'Luis Canché',
+				subtitle: 'Supervisor · Operación',
+				hue: 'violet',
+				avatar: { name: 'Luis Canché', status: 'busy' },
+				badge: { label: 'Retardo', tone: 'warning', dot: true },
+				meta: [
+					{ label: 'Entrada', value: '09:12' },
+					{ label: 'Antigüedad', value: '5 años' },
+				],
+			},
+			{
+				title: 'Karla Dzib',
+				subtitle: 'Reclutadora · Personas',
+				hue: 'pink',
+				avatar: { name: 'Karla Dzib', status: 'offline' },
+				badge: { label: 'Vacaciones', tone: 'info', dot: true },
+				meta: [
+					{ label: 'Regresa', value: '4 nov' },
+					{ label: 'Días libres', value: '6' },
+				],
+			},
+		],
+	},
+};

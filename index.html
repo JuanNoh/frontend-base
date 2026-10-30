@@ -3,7 +3,37 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Frontend Base</title>
+		<title>Quantum UI</title>
+		<meta
+			name="description"
+			content="Sistema de diseño y plantilla en React 19, TypeScript y Tailwind CSS 4 con componentes propios para cualquier negocio."
+		/>
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<script>
+			(() => {
+				try {
+					const saved =
+						JSON.parse(localStorage.getItem('appearance') ?? '{}').state ??
+						{};
+					const root = document.documentElement;
+					const mode = saved.mode ?? 'system';
+					const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+					if (mode === 'dark' || (mode === 'system' && dark))
+						root.classList.add('dark');
+					if (saved.palette) root.dataset.palette = saved.palette;
+					if (saved.shape) root.dataset.shape = saved.shape;
+					if (saved.rail) root.dataset.rail = saved.rail;
+					if (saved.finish) root.dataset.finish = saved.finish;
+					if (saved.surface) root.dataset.surface = saved.surface;
+					if (saved.backdrop) root.dataset.backdrop = saved.backdrop;
+					if (saved.glass)
+						root.style.setProperty('--glass-tint', saved.glass + '%');
+					if (saved.accent === 'ink') root.dataset.accent = 'ink';
+					else if (saved.accent)
+						root.style.setProperty('--brand-base', saved.accent);
+				} catch {}
+			})();
+		</script>
 	</head>
 	<body>
 		<div id="root"></div>

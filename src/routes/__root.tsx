@@ -1,13 +1,29 @@
+import { lazy, Suspense } from 'react';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import { Toaster } from 'sonner';
+import { MotionConfig } from 'motion/react';
+import { Tooltip } from 'radix-ui';
+import { Toaster } from '@/components/ui/toaster/toaster.component';
+
+const RouteProgress = lazy(() =>
+	import('@/components/layout/route-progress/route-progress.component').then(
+		({ RouteProgress }) => ({ default: RouteProgress })
+	)
+);
 
 export const Route = createRootRoute({
 	component: () => (
-		<>
-			<Outlet />
-			<Toaster richColors position="top-right" />
-			{import.meta.env.DEV && <TanStackRouterDevtools position="bottom-right" />}
-		</>
+		<MotionConfig reducedMotion="user">
+			<Tooltip.Provider delayDuration={300}>
+				<Suspense>
+					<RouteProgress />
+				</Suspense>
+				<Outlet />
+				<Toaster />
+				{import.meta.env.DEV && (
+					<TanStackRouterDevtools position="bottom-right" />
+				)}
+			</Tooltip.Provider>
+		</MotionConfig>
 	),
 });

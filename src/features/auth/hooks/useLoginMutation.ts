@@ -7,6 +7,6 @@ export function useLoginMutation() {
 
 	return useMutation({
 		mutationFn: loginRequest,
-		onSuccess: ({ token, user }) => login(token, user),
+		onSuccess: ({ token, user }, { remember }) => login(token, user, remember),
 	});
 }

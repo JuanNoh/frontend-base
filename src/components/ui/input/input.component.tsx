@@ -1,27 +1,46 @@
-import { useId } from 'react';
 import { cn } from '@/lib/utils/cn';
 import { FieldError } from '@/components/ui/field-error/field-error.component';
+import { FieldHint } from '@/components/ui/field-hint/field-hint.component';
 import { FieldLabel } from '@/components/ui/field-label/field-label.component';
+import {
+	fieldStyles,
+	inputAdornmentStyles,
+	inputBoxStyles,
+	inputControlStyles,
+} from './input.styles';
 import type { InputProps } from './input.types';
+import { useFieldIds } from './useFieldIds';
 
-export function Input({ label, error, className, id, ...rest }: InputProps) {
-	const autoId = useId();
-	const inputId = id ?? autoId;
+export function Input({
+	label,
+	hint,
+	error,
+	leading,
+	trailing,
+	below,
+	className,
+	id,
+	...rest
+}: InputProps) {
+	const { controlId, hintId, errorId, describedBy } = useFieldIds({ id, hint, error });
 
 	return (
-		<div className="relative flex w-full flex-col gap-1">
-			<FieldLabel htmlFor={inputId}>{label}</FieldLabel>
-			<input
-				id={inputId}
-				className={cn(
-					'rounded-(--radius-field) border-line placeholder:text-ink-muted focus:border-primary w-full border bg-white px-3 py-2 text-sm outline-none disabled:bg-line-soft',
-					error && 'border-danger',
-					className
-				)}
-				aria-invalid={!!error}
-				{...rest}
-			/>
-			<FieldError error={error} />
+		<div className={cn(fieldStyles(), className)}>
+			<FieldLabel htmlFor={controlId}>{label}</FieldLabel>
+			<div className={inputBoxStyles({ invalid: !!error })}>
+				{leading && <span className={inputAdornmentStyles()}>{leading}</span>}
+				<input
+					id={controlId}
+					className={inputControlStyles()}
+					aria-invalid={!!error}
+					aria-describedby={describedBy}
+					{...rest}
+				/>
+				{trailing && <span className={inputAdornmentStyles()}>{trailing}</span>}
+			</div>
+			{below}
+			<FieldHint id={hintId}>{hint}</FieldHint>
+			<FieldError id={errorId} error={error} />
 		</div>
 	);
 }

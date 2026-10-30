@@ -6,7 +6,6 @@ import path from 'node:path';
 
 export default defineConfig({
 	plugins: [
-		// el orden importa: el router genera routeTree.gen.ts antes de que react compile
 		tanstackRouter({ target: 'react', autoCodeSplitting: true }),
 		react(),
 		tailwindcss(),
