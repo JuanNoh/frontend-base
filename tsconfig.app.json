@@ -6,7 +6,6 @@
 		"module": "ESNext",
 		"skipLibCheck": true,
 
-		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
@@ -17,14 +16,12 @@
 		"jsx": "react-jsx",
 		"types": ["vite/client"],
 
-		/* Linting */
 		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true,
 
-		/* Alias para no andar con ../../../../ */
 		"paths": {
 			"@/*": ["./src/*"]
 		}

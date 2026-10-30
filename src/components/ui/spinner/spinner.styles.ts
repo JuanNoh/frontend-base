@@ -11,7 +11,7 @@ export const spinnerStyles = cva(
 			},
 			tone: {
 				primary: 'border-primary',
-				white: 'border-white',
+				current: 'border-current',
 				muted: 'border-ink-muted',
 			},
 		},

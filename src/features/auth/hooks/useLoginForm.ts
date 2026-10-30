@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useController, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
@@ -11,14 +11,19 @@ export function useLoginForm() {
 
 	const form = useForm<LoginValues>({
 		resolver: zodResolver(loginSchema),
-		defaultValues: { email: '', password: '' },
+		defaultValues: { email: '', password: '', remember: false },
+	});
+
+	const { field: rememberField } = useController({
+		control: form.control,
+		name: 'remember',
 	});
 
 	const onSubmit = form.handleSubmit((values) =>
 		loginMutation.mutate(values, {
 			onSuccess: ({ user }) => {
 				toast.success(`Bienvenido, ${user.fullName}`);
-				navigate({ to: '/posts' });
+				navigate({ to: '/ui' });
 			},
 		})
 	);
@@ -26,10 +31,15 @@ export function useLoginForm() {
 	return {
 		register: form.register,
 		errors: form.formState.errors,
+		remember: {
+			checked: rememberField.value,
+			onCheckedChange: (checked: boolean | 'indeterminate') =>
+				rememberField.onChange(checked === true),
+		},
 		isSubmitting: loginMutation.isPending,
 		errorMessage: loginMutation.isError
 			? 'No se pudo iniciar sesión, inténtalo de nuevo.'
-			: null,
+			: undefined,
 		onSubmit,
 	};
 }

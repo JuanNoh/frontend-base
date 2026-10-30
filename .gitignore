@@ -33,7 +33,6 @@ src/routeTree.gen.ts
 # cache de tsc
 *.tsbuildinfo
 
-# reglas locales para agentes, no van al repo público
 CLAUDE.md
 AGENTS.md
 GEMINI.md

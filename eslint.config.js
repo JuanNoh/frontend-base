@@ -21,16 +21,11 @@ export default tseslint.config(
 			globals: globals.browser,
 		},
 		rules: {
-			// nada de any, si de veras lo ocupas justifícalo con un disable comentado
 			'@typescript-eslint/no-explicit-any': 'error',
-			// ahora sí dejamos exhaustive-deps prendido: TanStack Query elimina
-			// la mayoría de los useEffect que daban lata en el proyecto viejo
 			'react-hooks/exhaustive-deps': 'warn',
 		},
 	},
 	{
-		// los archivos de ruta exportan Route + componente (patrón oficial de
-		// TanStack Router) y el plugin del router maneja su propio HMR
 		files: ['src/routes/**/*.tsx'],
 		rules: {
 			'react-refresh/only-export-components': 'off',

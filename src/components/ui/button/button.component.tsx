@@ -6,6 +6,7 @@ import type { ButtonProps } from './button.types';
 export function Button({
 	variant,
 	size,
+	block,
 	isSubmitting = false,
 	disabled,
 	className,
@@ -15,12 +16,12 @@ export function Button({
 }: ButtonProps) {
 	return (
 		<button
-			className={cn(buttonStyles({ variant, size }), className)}
+			className={cn(buttonStyles({ variant, size, block }), className)}
 			disabled={disabled || isSubmitting}
 			type={type}
 			{...rest}
 		>
-			{isSubmitting && <Spinner tone="white" />}
+			{isSubmitting && <Spinner tone="current" />}
 			{children}
 		</button>
 	);

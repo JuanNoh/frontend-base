@@ -22,8 +22,24 @@ moderno: las ideas se quedan, las herramientas se actualizan.
 | dayjs                                        | **date-fns 4**                  | Tree-shakeable y con soporte de timezones nativo                                          |
 | Sin alias, `../../../../..`                  | **alias `@/`**                  | Se acabó el infierno de puntitos                                                          |
 
-Base: **Vite 8 + React 19 + TypeScript 6 + Tailwind CSS 4** (CSS-first, sin
-`tailwind.config.js`). Manager: **pnpm**.
+Base: **Vite 8 + React 19 + TypeScript 7 + Tailwind CSS 4** (CSS-first, sin
+`tailwind.config.js`). Manager: **pnpm**. Íconos **lucide-react**, animación
+**motion** + **tw-animate-css**, color con **chroma-js**, letra **Geist** con cifras en
+**IBM Plex Mono**.
+
+### TypeScript 7 y 6 lado a lado
+
+TS 7 es el compilador nativo (Go): el `tsc -b` del build corre ~5× más rápido aquí y
+hasta 10× en proyectos grandes. Todavía no trae API programática (llega en 7.1), y
+typescript-eslint la necesita, así que se usan los dos con el esquema oficial:
+
+```json
+"@typescript/native": "npm:typescript@^7.0.2",
+"typescript": "npm:@typescript/typescript6@~6.0.2"
+```
+
+`tsc` = TS 7 (build, typecheck, CI). El paquete `typescript` = TS 6 (ESLint y lo que
+importe la API). Cuando salga 7.1 y typescript-eslint lo soporte, se quita el alias.
 
 ## Correr el proyecto
 
@@ -33,9 +49,26 @@ pnpm install
 pnpm dev
 ```
 
-El demo: login falso (cualquier correo + contraseña de 8+) → lista de posts real
-vía TanStack Query. Cubre el flujo completo: form → validación → sesión → guard →
-query → adapter → UI.
+El demo: login falso (cualquier correo + contraseña de 8+) → **Quantum UI** en
+**`/ui`**, el sistema de diseño con todos los componentes, temas y efectos juntos.
+
+## Tema y apariencia
+
+Todo el look sale de `src/styles/theme.css`:
+
+- **Grises con tono** (taupe, mist u olive de Tailwind 4.2) y **un acento de cualquier
+  color**: de él sale una escala completa 50 → 950 (`lib/palette/`, usa las familias de
+  Tailwind CSS v3.4 como molde, MIT © Tailwind Labs). El hover, los fondos suaves, la
+  versión oscura y el color del texto encima se derivan solos y siempre se leen.
+- **Claro, oscuro o sistema** con la clase `.dark` en `<html>`. Un script en
+  `index.html` aplica la preferencia guardada antes de montar React, así no parpadea.
+- **Tres formas** (`data-shape`: suave, equilibrada, compacta) que cambian radios y
+  alturas de todos los componentes a la vez.
+- **Botones líquidos**: relleno plano y filo de luz por fuera (utilidad `liquid-rim`),
+  como los controles de Apple.
+
+La preferencia vive en `stores/appearance.store.ts` (zustand + localStorage). Para
+darle a un cliente su color: `useAppearanceStore.getState().setAccent('#1d6fa5')`.
 
 ## Estructura
 
@@ -47,27 +80,26 @@ src/
 ├── routes/                  # SOLO cableado: guard + qué page pinta
 │   ├── __root.tsx
 │   ├── index.tsx            # / → login
-│   ├── _auth.tsx            # layout protegido (beforeLoad = el ProtectedRoute de antes)
-│   └── _auth/posts.tsx      # /posts
+│   └── ui.tsx               # /ui → Quantum UI
 ├── features/                # la carne — una carpeta por dominio de negocio
-│   └── posts/
-│       ├── posts.page.tsx   # la page: solo compone
+│   └── <dominio>/
+│       ├── <dominio>.page.tsx  # la page: solo compone
 │       ├── components/      # subcomponentes de la feature
-│       ├── hooks/           # orquestación (usePosts)
+│       ├── hooks/           # orquestación (useFacturas)
 │       ├── api/             # la ÚNICA capa que conoce URLs (el use-case de antes)
 │       ├── adapters/        # frontera backend crudo ↔ forma de UI (funciones puras)
 │       ├── schemas/         # schemas de zod (los validators de antes)
 │       └── types/           # XResponse (crudo) vs X (limpio)
 ├── components/
-│   ├── layout/              # shells de página (AuthLayout con el header)
+│   ├── layout/              # shells de página (AppShell con menú y barra superior)
 │   └── ui/                  # el components/common de antes
 │       └── button/
 │           ├── button.component.tsx
 │           ├── button.styles.ts    # cva
 │           └── button.types.ts
-├── stores/                  # zustand: SOLO estado global real (auth)
+├── stores/                  # zustand: SOLO estado global real (auth, apariencia)
 ├── lib/                     # infra compartida: api-client, query-client, cn()
-└── styles/theme.css         # tokens semánticos en @theme
+└── styles/theme.css         # tokens OKLCH, claro/oscuro, formas y @theme
 ```
 
 ## Convenciones (las reglas del juego)
@@ -75,7 +107,7 @@ src/
 1. **Un archivo = una responsabilidad**, con sufijo por punto:
    `.component.tsx` · `.page.tsx` · `.types.ts` · `.styles.ts` · `.utils.ts` ·
    `.api.ts` · `.adapter.ts` · `.schema.ts` · `.store.ts`
-2. **Carpetas en kebab-case**; hooks en camelCase con prefijo `use` (`usePosts.ts`).
+2. **Carpetas en kebab-case**; hooks en camelCase con prefijo `use` (`useLoginForm.ts`).
 3. **Capas estrictas**: componente → hook → `api/` → `apiClient`.
    La vista JAMÁS importa `apiClient` ni conoce URLs ni la forma cruda del backend.
 4. **Adapters como frontera de nombres**: el backend habla snake_case, la UI
@@ -88,7 +120,7 @@ src/
 7. **Tipos sin prefijo `I`** y con `ComponentProps<'button'>` para extender lo
    nativo. React 19: `ref` es prop normal, no se usa `forwardRef`.
 8. **Estado**: TanStack Query para TODO lo que venga del servidor; zustand solo
-   para estado global real de UI (sesión); `useState` para lo local. Redux ya no.
+   para estado global real de UI (sesión, apariencia); `useState` para lo local. Redux ya no.
 9. **Named exports** en todo (componentes, hooks, pages). Sin barrels `index.ts`
    salvo que un import se vuelva insufrible.
 10. **Nada de `any`** (ESLint lo marca error). Si de veras se ocupa, disable con
@@ -128,9 +160,16 @@ useMutation({
 - Colocar la mutación dentro del hook del form solo se vale si es de un solo
   uso y cabe en ~10 líneas. En duda: separa.
 
-**Nuevo componente UI con variantes:**
-carpeta en `components/ui/` con `.styles.ts` (cva), `.types.ts`
-(`ComponentProps<'x'> & VariantProps<...>`) y `.component.tsx` que usa `cn()`.
+**Nuevo componente UI:**
+carpeta en `components/ui/<x>/` con:
+
+- `x.types.ts`: props (`ComponentProps<'x'> & VariantProps<...>`).
+- `x.styles.ts`: TODAS las clases con cva, aunque no haya variantes; una
+  exportación por pieza (`xStyles`, `xItemStyles`…), solo con tokens del tema.
+- `useX.ts` / `x.utils.ts`: estado, efectos o funciones puras, si los hay.
+- `x.component.tsx`: solo pinta con `cn(xStyles(), className)`.
+
+Luego agrégalo a Quantum UI (`/ui`) y pruébalo en claro, oscuro y las tres formas.
 
 **Nuevo componente UI con comportamiento** (modal, select, dropdown, tabs):
 primitiva de Radix (`import { Dialog } from 'radix-ui'`) + estilo nuestro con
@@ -141,6 +180,45 @@ es de la casa. Ver `components/ui/modal`.
 `toast.success('...')` / `toast.error('...')` de sonner, desde donde sea (el
 `<Toaster>` ya vive en `__root.tsx`). Son efectos de pantalla: van en el
 call-site del `mutate`, no dentro del `useMutation`.
+
+## Listas con backend
+
+Un solo hook sirve para cualquier API. Eliges el formato sin editarlo:
+
+```bash
+VITE_PAGINATION=node
+```
+
+```ts
+const list = usePaginatedQuery<Invoice>({
+	queryKey: ['facturas'],
+	fetchPage: listInvoices,
+});
+```
+
+```tsx
+<DataTable rows={list.rows} columns={COLUMNS} getRowId={getId} server={list.table} />
+```
+
+| Formato       | Pide                     |
+| ------------- | ------------------------ |
+| `dotnet`      | `pageNumber`, `pageSize` |
+| `dotnet-page` | `page`, `pageSize`       |
+| `node`        | `page`, `limit`          |
+| `offset`      | `offset`, `limit`        |
+
+Para una sola pantalla: `paginate: 'node'`. Para una API con otros nombres:
+`paginate: { firstPage: 0, pageSizeParam: 'size' }`.
+
+La respuesta se lee sola: reconoce `items`, `data`, `results`, `content`, `rows` o
+`records`, y `totalCount`, `total`, `count`, `totalElements` o `meta.total`, también
+envueltas en `data` o `result`.
+
+## Para cualquier negocio
+
+Quantum UI muestra los mismos componentes en cinco giros: administración, punto de
+venta, recursos humanos, citas y logística. Cada giro es un archivo de datos en
+`features/quantum-ui/data/verticals/`; agregar otro no toca los componentes.
 
 ## Comandos
 

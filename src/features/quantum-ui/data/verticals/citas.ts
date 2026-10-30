@@ -1,0 +1,198 @@
+import {
+	Bell,
+	CalendarCheck,
+	CalendarDays,
+	CalendarX,
+	Clock,
+	Scissors,
+	Sparkles,
+	Star,
+	TrendingUp,
+	UserRound,
+	Users,
+} from 'lucide-react';
+import type { Vertical } from '../../types/vertical.types';
+import { WEEK } from './months';
+
+export const CITAS: Vertical = {
+	id: 'citas',
+	label: 'Citas',
+	modules: [
+		{
+			label: 'Agenda',
+			description: 'Día, semana y mes',
+			icon: CalendarDays,
+			hue: 'blue',
+			count: 14,
+		},
+		{ label: 'Clientes', description: 'Historial y notas', icon: Users, hue: 'pink' },
+		{
+			label: 'Profesionales',
+			description: 'Horarios y descansos',
+			icon: UserRound,
+			hue: 'violet',
+		},
+		{
+			label: 'Servicios',
+			description: 'Duración y precios',
+			icon: Scissors,
+			hue: 'orange',
+		},
+		{
+			label: 'Recordatorios',
+			description: 'Mensajes automáticos',
+			icon: Bell,
+			hue: 'teal',
+		},
+		{
+			label: 'Reseñas',
+			description: 'Opiniones recibidas',
+			icon: Star,
+			hue: 'amber',
+			count: 2,
+		},
+		{
+			label: 'Paquetes',
+			description: 'Sesiones prepagadas',
+			icon: Sparkles,
+			hue: 'green',
+		},
+		{
+			label: 'Reportes',
+			description: 'Ocupación e ingresos',
+			icon: TrendingUp,
+			hue: 'indigo',
+		},
+	],
+	stats: [
+		{
+			label: 'Citas de hoy',
+			value: '34',
+			icon: CalendarCheck,
+			delta: '6 por confirmar',
+			series: [18, 22, 20, 26, 24, 30, 28, 32, 34],
+		},
+		{
+			label: 'Ocupación',
+			value: '87%',
+			icon: Clock,
+			hue: 'green',
+			delta: '5%',
+			trend: 'up',
+			series: [62, 68, 66, 72, 75, 78, 80, 84, 87],
+		},
+		{
+			label: 'Inasistencias',
+			value: '2',
+			icon: CalendarX,
+			hue: 'orange',
+			delta: '3 menos',
+			trend: 'up',
+			series: [7, 6, 6, 5, 5, 4, 4, 3, 2],
+		},
+		{
+			label: 'Calificación',
+			value: '4.8',
+			icon: Star,
+			hue: 'violet',
+			delta: '128 reseñas',
+			trend: 'flat',
+			series: [44, 45, 45, 46, 47, 46, 47, 48, 48],
+		},
+	],
+	funnel: {
+		title: 'De la agenda a la visita',
+		steps: [
+			{ label: 'Agendadas', value: 120, hue: 'blue' },
+			{ label: 'Confirmadas', value: 104, hue: 'violet' },
+			{ label: 'Atendidas', value: 96, hue: 'green' },
+			{ label: 'Volvieron a agendar', value: 58, hue: 'orange' },
+		],
+	},
+	bars: {
+		title: 'Citas por día',
+		label: 'Citas atendidas y canceladas de lunes a sábado',
+		categories: WEEK,
+		series: [
+			{ label: 'Atendidas', values: [18, 21, 19, 24, 32, 38], tone: 'primary' },
+			{ label: 'Canceladas', values: [3, 2, 4, 2, 3, 5], tone: 'muted' },
+		],
+		max: 40,
+		ticks: [0, 10, 20, 30, 40],
+	},
+	line: {
+		title: 'Ocupación de la semana',
+		label: 'Ocupación por día comparada con la semana pasada, en porcentaje',
+		categories: WEEK,
+		series: [
+			{ label: 'Esta semana', values: [62, 71, 66, 78, 89, 96], hue: 'brand' },
+			{ label: 'Semana pasada', values: [58, 64, 69, 72, 81, 90], hue: 'violet' },
+		],
+		max: 100,
+		ticks: [0, 25, 50, 75, 100],
+		unit: '%',
+	},
+	donut: {
+		title: 'Ingresos por servicio',
+		label: 'Ingresos del mes por servicio',
+		money: true,
+		segments: [
+			{ label: 'Corte', value: 48200, hue: 'blue' },
+			{ label: 'Barba', value: 22800, hue: 'orange' },
+			{ label: 'Tratamientos', value: 31400, hue: 'violet' },
+			{ label: 'Productos', value: 9600, hue: 'green' },
+		],
+	},
+	progress: {
+		title: 'Tu día',
+		total: 4,
+		done: 2,
+		items: [
+			{ label: 'Recordatorios enviados (34)', status: 'done' },
+			{ label: 'Confirmaciones recibidas (28)', status: 'done' },
+			{ label: 'Llamando a 6 clientes por confirmar…', status: 'running' },
+			{ label: 'Pedir reseñas al cerrar', status: 'pending' },
+		],
+	},
+	cards: {
+		title: 'Próximas citas',
+		items: [
+			{
+				title: 'Corte y barba',
+				subtitle: 'Raúl Poot · con Beto',
+				icon: Scissors,
+				hue: 'orange',
+				badge: { label: 'Confirmada', tone: 'success', dot: true },
+				meta: [
+					{ label: 'Hora', value: '10:30' },
+					{ label: 'Duración', value: '45 min' },
+				],
+				amount: '$350.00',
+			},
+			{
+				title: 'Tratamiento facial',
+				subtitle: 'Mónica Chan · con Karla',
+				icon: Sparkles,
+				hue: 'violet',
+				badge: { label: 'Por confirmar', tone: 'warning', dot: true },
+				meta: [
+					{ label: 'Hora', value: '11:15' },
+					{ label: 'Duración', value: '60 min' },
+				],
+				amount: '$780.00',
+			},
+			{
+				title: 'Consulta de seguimiento',
+				subtitle: 'Ana Pech · con Dra. Uc',
+				icon: CalendarCheck,
+				hue: 'blue',
+				badge: { label: 'En sala', tone: 'info', dot: true },
+				meta: [
+					{ label: 'Hora', value: '12:00' },
+					{ label: 'Duración', value: '30 min' },
+				],
+				amount: '$600.00',
+			},
+		],
+	},
+};

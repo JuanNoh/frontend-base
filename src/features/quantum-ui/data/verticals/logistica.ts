@@ -1,0 +1,206 @@
+import {
+	Boxes,
+	Clock,
+	Fuel,
+	MapPinned,
+	PackageCheck,
+	Route,
+	Timer,
+	Truck,
+	UserRound,
+	Warehouse,
+	Wrench,
+} from 'lucide-react';
+import type { Vertical } from '../../types/vertical.types';
+import { MONTHS } from './months';
+
+export const LOGISTICA: Vertical = {
+	id: 'logistica',
+	label: 'Logística',
+	modules: [
+		{
+			label: 'Rutas',
+			description: 'Planeación diaria',
+			icon: Route,
+			hue: 'blue',
+			count: 12,
+		},
+		{
+			label: 'Unidades',
+			description: 'Flota y disponibilidad',
+			icon: Truck,
+			hue: 'orange',
+		},
+		{
+			label: 'Choferes',
+			description: 'Turnos y licencias',
+			icon: UserRound,
+			hue: 'pink',
+		},
+		{
+			label: 'Rastreo',
+			description: 'En vivo por mapa',
+			icon: MapPinned,
+			hue: 'green',
+			count: 8,
+		},
+		{
+			label: 'Almacenes',
+			description: 'Entradas y salidas',
+			icon: Warehouse,
+			hue: 'violet',
+		},
+		{ label: 'Paquetes', description: 'Guías y entregas', icon: Boxes, hue: 'teal' },
+		{
+			label: 'Combustible',
+			description: 'Cargas y rendimiento',
+			icon: Fuel,
+			hue: 'amber',
+		},
+		{
+			label: 'Mantenimiento',
+			description: 'Servicios programados',
+			icon: Wrench,
+			hue: 'indigo',
+			count: 2,
+		},
+	],
+	stats: [
+		{
+			label: 'Entregas de hoy',
+			value: '268',
+			icon: PackageCheck,
+			delta: '91% a tiempo',
+			trend: 'up',
+			series: [120, 150, 142, 180, 196, 210, 232, 250, 268],
+		},
+		{
+			label: 'Unidades en ruta',
+			value: '12',
+			icon: Truck,
+			hue: 'orange',
+			delta: 'de 15',
+			series: [8, 10, 9, 11, 12, 11, 12, 13, 12],
+		},
+		{
+			label: 'Tiempo promedio',
+			value: '38 min',
+			icon: Timer,
+			hue: 'violet',
+			delta: '4 min menos',
+			trend: 'up',
+			series: [52, 49, 50, 46, 44, 45, 41, 40, 38],
+		},
+		{
+			label: 'Retrasos',
+			value: '6',
+			icon: Clock,
+			hue: 'teal',
+			delta: '2 críticos',
+			trend: 'down',
+			series: [3, 4, 3, 5, 4, 6, 5, 7, 6],
+		},
+	],
+	funnel: {
+		title: 'Pedidos del día',
+		steps: [
+			{ label: 'Recibidos', value: 312, hue: 'blue' },
+			{ label: 'Empacados', value: 296, hue: 'violet' },
+			{ label: 'En ruta', value: 281, hue: 'orange' },
+			{ label: 'Entregados', value: 268, hue: 'green' },
+		],
+	},
+	bars: {
+		title: 'Entregas a tiempo',
+		label: 'Entregas a tiempo y con retraso de mayo a octubre, en miles',
+		categories: MONTHS,
+		series: [
+			{
+				label: 'A tiempo',
+				values: [4.1, 4.6, 4.3, 5.2, 5.6, 6.1],
+				tone: 'primary',
+			},
+			{
+				label: 'Con retraso',
+				values: [0.6, 0.5, 0.7, 0.4, 0.5, 0.4],
+				tone: 'muted',
+			},
+		],
+		max: 7,
+		ticks: [0, 2, 4, 6],
+		unit: 'k',
+	},
+	line: {
+		title: 'Kilómetros recorridos',
+		label: 'Kilómetros por mes de mayo a octubre, en miles',
+		categories: MONTHS,
+		series: [
+			{ label: 'Este año', values: [82, 88, 91, 96, 104, 112], hue: 'brand' },
+			{ label: 'Año pasado', values: [74, 79, 83, 86, 90, 97], hue: 'orange' },
+		],
+		max: 120,
+		ticks: [0, 40, 80, 120],
+		unit: 'k',
+	},
+	donut: {
+		title: 'Costo por kilómetro',
+		label: 'Costos de operación del mes',
+		money: true,
+		segments: [
+			{ label: 'Combustible', value: 186000, hue: 'amber' },
+			{ label: 'Choferes', value: 142000, hue: 'blue' },
+			{ label: 'Casetas', value: 58000, hue: 'violet' },
+			{ label: 'Mantenimiento', value: 44000, hue: 'teal' },
+		],
+	},
+	progress: {
+		title: 'Salida de rutas',
+		total: 5,
+		done: 3,
+		items: [
+			{ label: 'Pedidos asignados a rutas', status: 'done' },
+			{ label: 'Unidades revisadas', status: 'done' },
+			{ label: 'Choferes confirmados', status: 'done' },
+			{ label: 'Cargando la ruta 14…', status: 'running' },
+			{ label: 'Cerrar salidas del día', status: 'pending' },
+		],
+	},
+	cards: {
+		title: 'Envíos en curso',
+		items: [
+			{
+				title: 'Ruta 14',
+				subtitle: 'Mérida → Cancún',
+				icon: Truck,
+				hue: 'blue',
+				badge: { label: 'En tránsito', tone: 'info', dot: true },
+				meta: [
+					{ label: 'Unidad', value: 'TR-08' },
+					{ label: 'Llega', value: '16:40' },
+				],
+			},
+			{
+				title: 'Ruta 7',
+				subtitle: 'Cancún → Playa del Carmen',
+				icon: Route,
+				hue: 'green',
+				badge: { label: 'Entregado', tone: 'success', dot: true },
+				meta: [
+					{ label: 'Unidad', value: 'TR-03' },
+					{ label: 'Llegó', value: '11:12' },
+				],
+			},
+			{
+				title: 'Ruta 21',
+				subtitle: 'Mérida → Campeche',
+				icon: MapPinned,
+				hue: 'orange',
+				badge: { label: 'Retrasada', tone: 'warning', dot: true },
+				meta: [
+					{ label: 'Unidad', value: 'TR-11' },
+					{ label: 'Llega', value: '19:05' },
+				],
+			},
+		],
+	},
+};
